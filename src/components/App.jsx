@@ -17,27 +17,23 @@ export class App extends Component {
     loading: false,
   };
 
-
-
   componentDidUpdate(prevProps, prevState) {
-    const includesTags = prevState.picturesTags.includes(
-      this.state.picturesTags
-    );
-
-    if (!includesTags) {
-      this.setState({ loading: true});
+    if (prevState.picturesTags !== this.state.picturesTags) {
+      this.setState({ loading: true, pictures: [] });
       window.scrollTo({
         top: 0,
-        behavior: 'smooth'
-      })
+        behavior: 'smooth',
+      });
+
       apiFetch(this.state.picturesTags, this.state.page)
-        .then(({ hits, totalHits }) =>
-          {
-            
-            this.setState({ pictures: hits, page: this.state.page, totalPictures: totalHits, loading: false });
-          
-          }
-        )
+        .then(({ hits, totalHits }) => {
+          this.setState({
+            pictures: hits,
+            page: this.state.page,
+            totalPictures: totalHits,
+            loading: false,
+          });
+        })
         .finally(() => this.setState({ loading: false }));
     }
   }
@@ -47,11 +43,10 @@ export class App extends Component {
 
   hendlerButtonLoadMore = e => {
     e.preventDefault();
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       page: prevState.page + 1,
     }));
 
-    console.log(this.state.loading);
     apiFetch(this.state.picturesTags, this.state.page)
       .then(({ hits }) => {
         if (hits.length > 0) {
@@ -65,7 +60,7 @@ export class App extends Component {
           error: error.message,
         });
       })
-      .finally(() => this.setState({ loading: false}));
+      .finally(() => this.setState({ loading: false }));
   };
 
   render() {
@@ -97,7 +92,7 @@ export class App extends Component {
 }
 
 App.propTypes = {
-  pictures: PropTypes.array,
-  hits: PropTypes.array,
-  totalHits: PropTypes.number,
+  pictures: PropTypes.array.isRequired,
+  hits: PropTypes.array.isRequired,
+  totalHits: PropTypes.number.isRequired,
 };
