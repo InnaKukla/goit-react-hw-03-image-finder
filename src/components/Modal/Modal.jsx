@@ -15,7 +15,6 @@ export class Modal extends Component {
 
   handleEscapeDown = e => {
     if (e.code === 'Escape') {
-      console.log('Escape');
       this.props.onEscape();
     }
   };
