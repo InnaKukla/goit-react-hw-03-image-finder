@@ -24,7 +24,7 @@ export class Searchbar extends Component {
       return;
     }
     this.props.onSubmit(this.state.picturesTags, this.state.page);
-    this.setState({picturesTags: '', page: 1})
+    this.setState({ picturesTags: '', page: 1 });
   };
   render() {
     return (
