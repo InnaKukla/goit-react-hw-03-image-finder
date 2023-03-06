@@ -9,20 +9,22 @@ import {
 export class Searchbar extends Component {
   state = {
     picturesTags: '',
+    page: 1,
   };
 
   changeTags = e => {
-    console.log(e.currentTarget.value);
     this.setState({ picturesTags: e.currentTarget.value.toLowerCase() });
   };
 
   handlSubmitForm = e => {
     e.preventDefault();
+
     if (this.state.picturesTags.trim() === '') {
-      alert('Input pictures name');
+      alert('Enter pictures name');
       return;
     }
-    this.props.onSubmit(this.state.picturesTags);
+    this.props.onSubmit(this.state.picturesTags, this.state.page);
+    this.setState({picturesTags: '', page: 1})
   };
   render() {
     return (
